@@ -28,7 +28,6 @@ class Table extends Component {
 
     newTable = this.layMines(newTable, mines)
     newTable = this.getTableScore(newTable)
-    console.log(newTable)
     return newTable;
   }
 
@@ -121,6 +120,12 @@ class Table extends Component {
     return score
   }
 
+  handleRefresh() {
+    this.setState({
+      table: this.initializeNewTable(this.props.mines, this.props.columns, this.props.rows)
+    })
+  }
+
   renderTable(table) {
     return table.map((tableRow, index) => {
       return (
@@ -142,8 +147,11 @@ class Table extends Component {
   render() {
     return (
       <React.Fragment>
-        <div>
-          Mines remaining: {this.state.mines}
+        <div className="game-info">
+          <div>
+            Mines remaining: {this.state.mines}
+          </div>
+          <span onClick={() => this.handleRefresh()}>🔄</span>
         </div>
         {this.renderTable(this.state.table)}
       </React.Fragment>

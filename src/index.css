@@ -16,3 +16,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.game-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
