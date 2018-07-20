@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Square from './Square'
 
 class Table extends Component {
   constructor(props) {
@@ -10,28 +11,37 @@ class Table extends Component {
   }
 
   initializeTable(mines, columns, rows) {
-    const defaultSquare = {
-      isMine: false,
-      isFlag: false,
-      isSearched: false,
-      squareScore: 0
-    }
-
     let newTable = []
-    for (let i = 0; i < columns; i++) {
+    for (let i = 0; i < rows; i++) {
       newTable.push([])
-      for (let j = 0; j < rows; j++) {
-        newTable[i][j] = defaultSquare
+      for (let j = 0; j < columns; j++) {
+        newTable[i][j] = {
+          row: i,
+          column: j,
+          isMine: false,
+          isFlag: false,
+          isClicked: false,
+          squareScore: 0
+        }
       }
     }
 
-    console.log(defaultSquare)
+    newTable = this.layMines(newTable, mines)
     console.log(newTable)
-
-    return newTable
+    return newTable;
   }
 
-  layMines(table) {
+  // randomly lay the specified amount of mines
+  layMines(table, mines) {
+    while(mines > 0) {
+      let columnToLay = Math.floor(Math.random() * Math.floor(table.length));
+      let rowToLay = Math.floor(Math.random() * Math.floor(table[0].length));
+
+      if (!table[columnToLay][rowToLay].isMine) {
+        table[columnToLay][rowToLay].isMine = true
+        mines--
+      }
+    }
     return table
   }
 
@@ -46,22 +56,31 @@ class Table extends Component {
     return score
   }
 
-  renderTable() {
-    return (
-      <div>
-
-      </div>
-    )
+  renderTable(table) {
+    return table.map((tableRow, index) => {
+      return (
+        <div className="table-row" key={`row-${index}`}>
+          {tableRow.map((tableSquare) => {
+            return (
+              <Square
+                key={`column-${tableSquare.column}`}
+                isMine={tableSquare.isMine}
+                squareScore={tableSquare.squareScore}
+              />
+            )
+          })}
+        </div>
+      )
+    });
   }
 
   render() {
-    console.log(this.state.table)
     return (
       <div>
         <div>
           Mines remaining: {this.state.mines}
         </div>
-        {this.renderTable()}
+        {this.renderTable(this.state.table)}
       </div>
     );
   }

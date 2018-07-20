@@ -5,7 +5,7 @@ class Square extends Component {
     const {
       isMine,
       isFlag,
-      isSearched,
+      isClicked,
       squareScore
     } = this.props
 
