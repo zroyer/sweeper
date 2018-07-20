@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import Table from './Table'
 
 class Sweeper extends Component {
-  state = {
-    mines: 10,
-    rows: 9,
-    columns: 9,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      mines: 10,
+      rows: 9,
+      columns: 9,
+    };
+  }
 
   render() {
     return (
