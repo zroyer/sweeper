@@ -21,7 +21,7 @@ class Square extends Component {
 
   render() {
     return (
-      <div>
+      <div className="square">
         {this.renderSquare()}
       </div>
     );

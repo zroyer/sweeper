@@ -8,3 +8,11 @@ body {
   display: flex;
   flex-direction: row;
 }
+
+.square {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
