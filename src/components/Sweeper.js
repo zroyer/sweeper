@@ -6,8 +6,8 @@ class Sweeper extends Component {
     super(props);
     this.state = {
       mines: 10,
-      rows: 9,
       columns: 9,
+      rows: 9,
     };
   }
 
@@ -15,8 +15,8 @@ class Sweeper extends Component {
     return (
       <Table
         mines={this.state.mines}
-        rows={this.state.rows}
         columns={this.state.columns}
+        rows={this.state.rows}
       />
     );
   }
