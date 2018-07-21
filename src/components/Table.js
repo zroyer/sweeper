@@ -8,6 +8,7 @@ class Table extends Component {
       mines: this.props.mines,
       table: this.initializeNewTable(this.props.mines, this.props.columns, this.props.rows),
       displayLoss: false,
+      displayWin: false,
     }
 
     console.log(this.state)
@@ -48,7 +49,7 @@ class Table extends Component {
     return table
   }
 
-  // get the score for all the squares on the table
+  // lay the score for all the squares on the table
   layTableScore(table) {
     for (let i = 0; i < table[0].length; i++) {
       for (let j = 0; j < table.length; j++) {
@@ -60,7 +61,7 @@ class Table extends Component {
     return table
   }
 
-  // get the score for an individual square
+  // returns the score for an individual square
   getSquareScore(table, row, column) {
     let score = 0
 
@@ -116,11 +117,23 @@ class Table extends Component {
 
   handleSquareClick(row, column) {
     let clickedTable = this.state.table
-
-    if (!clickedTable[row][column].isFlipped) {
+    if (!clickedTable[row][column].isFlipped && !clickedTable[row][column].isFlag) {
       clickedTable[row][column].isFlipped = true
       clickedTable[row][column].isMine && this.serveLoss()
+      clickedTable[row][column].squareScore === 0 && this.flipZeroes(clickedTable[row][column])
     }
+
+    this.setState({
+      table: clickedTable
+    })
+  }
+
+  handleSquareRightClick(e, row, column) {
+    e.preventDefault()
+    let clickedTable = this.state.table
+    let clickedSquare = clickedTable[row][column]
+    console.log(clickedSquare.isFlag)
+    clickedSquare.isFlag = !this.state.table[row][column].isFlag
 
     this.setState({
       table: clickedTable
@@ -132,6 +145,10 @@ class Table extends Component {
       table: this.flipTable(),
       displayLoss: true
     })
+  }
+
+  flipZeroes(square) {
+    console.log(square)
   }
 
   flipTable() {
@@ -156,6 +173,7 @@ class Table extends Component {
                 isFlipped={tableSquare.isFlipped}
                 squareScore={tableSquare.squareScore}
                 onClick={() => this.handleSquareClick(tableSquare.row, tableSquare.column)}
+                onContextMenu={(e) => this.handleSquareRightClick(e, tableSquare.row, tableSquare.column)}
               />
             )
           })}
@@ -179,6 +197,7 @@ class Table extends Component {
         {this.renderTable(this.state.table)}
         <div className="game-info"><span role="img" aria-label="mine-count">💣</span>: {this.state.mines}</div>
         {this.state.displayLoss && (
+          //// TODO: break this out into component
           <div className="display-loss">
             <span>You lost! Try again?</span>
             <span

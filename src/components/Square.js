@@ -14,9 +14,6 @@ class Square extends Component {
       9: '9️⃣'
     }
 
-    if (isFlag) {
-      return '🚩'
-    }
     if (isMine) {
       return '💣'
     }
@@ -26,13 +23,18 @@ class Square extends Component {
     return scoreDict[squareScore]
   }
 
+  renderFlagContent(isFlag) {
+    return isFlag && '🚩'
+  }
+
   render() {
     const {
       isFlag,
       isMine,
       squareScore,
       isFlipped,
-      onClick
+      onClick,
+      onContextMenu,
     } = this.props
 
     return (
@@ -45,7 +47,10 @@ class Square extends Component {
           <div
             className="square unclicked"
             onClick={onClick}
-          />
+            onContextMenu={onContextMenu}
+          >
+            {this.renderFlagContent(isFlag)}
+          </div>
         )}
       </React.Fragment>
     )
