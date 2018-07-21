@@ -5,7 +5,6 @@ class Square extends Component {
     const {
       isMine,
       isFlag,
-      isClicked,
       squareScore
     } = this.props
 
@@ -15,16 +14,28 @@ class Square extends Component {
     if (isMine) {
       return '💣'
     }
-
+    // if (squareScore === 0) {
+    //   return null
+    // }
     return squareScore
   }
 
   render() {
+    const { isClicked } = this.props
     return (
-      <div className="square">
-        {this.renderSquare()}
-      </div>
-    );
+      <React.Fragment>
+        {isClicked ? (
+          <div className="square">
+            {this.renderSquare()}
+          </div>
+        ) : (
+          <div
+            className="square unclicked"
+            onClick={this.props.onClick}
+          />
+        )}
+      </React.Fragment>
+    )
   }
 }
 

@@ -63,58 +63,42 @@ class Table extends Component {
 
     // look up
     if (row > 0) {
-      if (table[row - 1][column].isMine) {
-        score++
-      }
+      row > 0 && table[row - 1][column].isMine && score++
     }
 
     // look up & to the right
     if (row > 0 && column < table.length - 1) {
-      if (table[row - 1][column + 1].isMine) {
-        score++
-      }
+      table[row - 1][column + 1].isMine && score++
     }
 
     // look to the right
     if (column < table.length - 1) {
-      if (table[row][column + 1].isMine) {
-        score++
-      }
+      table[row][column + 1].isMine && score++
     }
 
     // look down & to the right
     if (row < table[0].length - 1 && column < table.length - 1) {
-      if (table[row + 1][column + 1].isMine) {
-        score++
-      }
+      table[row + 1][column + 1].isMine && score++
     }
 
     // look down
     if (row < table[0].length - 1) {
-      if (table[row + 1][column].isMine) {
-        score++
-      }
+      table[row + 1][column].isMine && score++
     }
 
     // look down & to the left
     if (row < table[0].length - 1 && column > 0) {
-      if (table[row + 1][column - 1].isMine) {
-        score++
-      }
+      table[row + 1][column - 1].isMine && score++
     }
 
     // look to the left
     if (column > 0) {
-      if (table[row][column - 1].isMine) {
-        score++
-      }
+      table[row][column - 1].isMine && score++
     }
 
     // look up & to the left
     if (row > 0 && column > 0) {
-      if (table[row - 1][column - 1].isMine) {
-        score++
-      }
+      table[row - 1][column - 1].isMine && score++
     }
 
     return score
@@ -126,6 +110,19 @@ class Table extends Component {
     })
   }
 
+  handleSquareClick(table, row, column) {
+    console.log('click')
+    let alteredTable = table
+
+    if (!table[row][column].isClicked) {
+      alteredTable[row][column].isClicked = true
+    }
+
+    this.setState({
+      table: alteredTable
+    })
+  }
+
   renderTable(table) {
     return table.map((tableRow, index) => {
       return (
@@ -133,9 +130,12 @@ class Table extends Component {
           {tableRow.map((tableSquare) => {
             return (
               <Square
-                key={`column-${tableSquare.column}`}
+                key={`row-${index}&column-${tableSquare.column}`}
                 isMine={tableSquare.isMine}
+                isFlag={tableSquare.isFlag}
+                isClicked={tableSquare.isClicked}
                 squareScore={tableSquare.squareScore}
+                onClick={() => this.handleSquareClick(table, tableSquare.row, tableSquare.column)}
               />
             )
           })}

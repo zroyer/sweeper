@@ -15,10 +15,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #E8E8E8;
 }
 
 .game-info {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.unclicked {
+  background-color: #D8D8D8;
 }
