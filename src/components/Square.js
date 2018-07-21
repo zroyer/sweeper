@@ -11,7 +11,6 @@ class Square extends Component {
       6: '6️⃣',
       7: '7️⃣',
       8: '8️⃣',
-      9: '9️⃣'
     }
 
     if (isMine) {
@@ -40,7 +39,10 @@ class Square extends Component {
     return (
       <React.Fragment>
         {isFlipped ? (
-          <div className="square">
+          <div
+            className="square"
+            onContextMenu={onContextMenu}
+          >
             {this.renderSquareContent(isFlag, isMine, squareScore)}
           </div>
         ) : (

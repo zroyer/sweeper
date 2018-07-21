@@ -10,8 +10,6 @@ class Table extends Component {
       displayLoss: false,
       displayWin: false,
     }
-
-    console.log(this.state)
   }
 
   initializeNewTable(mines, columns, rows) {
@@ -25,7 +23,7 @@ class Table extends Component {
           isMine: false,
           isFlag: false,
           isFlipped: false,
-          squareScore: 0
+          squareScore: 0,
         }
       }
     }
@@ -37,12 +35,14 @@ class Table extends Component {
 
   // randomly lay the specified amount of mines
   layMines(table, mines) {
+    console.log(table)
     while(mines > 0) {
       let rowToLay = Math.floor(Math.random() * Math.floor(table[0].length));
       let columnToLay = Math.floor(Math.random() * Math.floor(table.length));
 
       if (!table[rowToLay][columnToLay].isMine) {
         table[rowToLay][columnToLay].isMine = true
+        //table.mineMap.push(table[rowToLay][columnToLay])
         mines--
       }
     }
@@ -108,6 +108,11 @@ class Table extends Component {
     return score
   }
 
+  // grabs the surrounding squares (up to 8) for comparison
+  lookAround(table, row, column) {
+
+  }
+
   handleRefresh() {
     this.setState({
       table: this.initializeNewTable(this.props.mines, this.props.columns, this.props.rows),
@@ -157,6 +162,9 @@ class Table extends Component {
       row.forEach(square => {
         square.isFlipped = true
       })
+    })
+    this.setState({
+      table: flippedTable
     })
   }
 
