@@ -13,11 +13,13 @@ class Sweeper extends Component {
 
   render() {
     return (
-      <Table
-        mines={this.state.mines}
-        columns={this.state.columns}
-        rows={this.state.rows}
-      />
+      <div className="table-wrapper">
+        <Table
+          mines={this.state.mines}
+          columns={this.state.columns}
+          rows={this.state.rows}
+        />
+      </div>
     );
   }
 }

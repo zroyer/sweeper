@@ -20,14 +20,14 @@ class Table extends Component {
           column: j,
           isMine: false,
           isFlag: false,
-          isClicked: false,
+          isFlipped: false,
           squareScore: 0
         }
       }
     }
 
     newTable = this.layMines(newTable, mines)
-    newTable = this.getTableScore(newTable)
+    newTable = this.layTableScore(newTable)
     return newTable;
   }
 
@@ -46,7 +46,7 @@ class Table extends Component {
   }
 
   // get the score for all the squares on the table
-  getTableScore(table) {
+  layTableScore(table) {
     for (let i = 0; i < table[0].length; i++) {
       for (let j = 0; j < table.length; j++) {
         if (!table[i][j].isMine) {
@@ -110,18 +110,36 @@ class Table extends Component {
     })
   }
 
-  handleSquareClick(table, row, column) {
+  handleSquareClick(row, column) {
     console.log('click')
-    let alteredTable = table
+    let clickedTable = this.state.table
 
-    if (!table[row][column].isClicked) {
-      alteredTable[row][column].isClicked = true
+    if (!clickedTable[row][column].isFlipped) {
+      clickedTable[row][column].isFlipped = true
+      clickedTable[row][column].isMine && this.serveLoss()
     }
 
     this.setState({
-      table: alteredTable
+      table: clickedTable
     })
   }
+
+  serveLoss() {
+    alert('Take the L')
+    this.flipTable()
+  }
+
+  flipTable() {
+    let flippedTable = this.state.table
+    flippedTable.forEach(row => {
+      row.forEach(square => {
+        square.isFlipped = true
+      })
+    })
+
+    console.log(flippedTable)
+  }
+
 
   renderTable(table) {
     return table.map((tableRow, index) => {
@@ -133,9 +151,9 @@ class Table extends Component {
                 key={`row-${index}&column-${tableSquare.column}`}
                 isMine={tableSquare.isMine}
                 isFlag={tableSquare.isFlag}
-                isClicked={tableSquare.isClicked}
+                isFlipped={tableSquare.isFlipped}
                 squareScore={tableSquare.squareScore}
-                onClick={() => this.handleSquareClick(table, tableSquare.row, tableSquare.column)}
+                onClick={() => this.handleSquareClick(tableSquare.row, tableSquare.column)}
               />
             )
           })}

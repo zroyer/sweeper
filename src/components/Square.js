@@ -1,37 +1,38 @@
 import React, { Component } from 'react';
 
 class Square extends Component {
-  renderSquare() {
-    const {
-      isMine,
-      isFlag,
-      squareScore
-    } = this.props
-
+  renderSquareContent(isFlag, isMine, squareScore) {
     if (isFlag) {
       return '🚩'
     }
     if (isMine) {
       return '💣'
     }
-    // if (squareScore === 0) {
-    //   return null
-    // }
+    if (squareScore === 0) {
+      return null
+    }
     return squareScore
   }
 
   render() {
-    const { isClicked } = this.props
+    const {
+      isFlag,
+      isMine,
+      squareScore,
+      isFlipped,
+      onClick
+    } = this.props
+
     return (
       <React.Fragment>
-        {isClicked ? (
+        {isFlipped ? (
           <div className="square">
-            {this.renderSquare()}
+            {this.renderSquareContent(isFlag, isMine, squareScore)}
           </div>
         ) : (
           <div
             className="square unclicked"
-            onClick={this.props.onClick}
+            onClick={onClick}
           />
         )}
       </React.Fragment>
