@@ -6,8 +6,11 @@ class Table extends Component {
     super(props)
     this.state = {
       mines: this.props.mines,
-      table: this.initializeNewTable(this.props.mines, this.props.columns, this.props.rows)
-    };
+      table: this.initializeNewTable(this.props.mines, this.props.columns, this.props.rows),
+      displayLoss: false,
+    }
+
+    console.log(this.state)
   }
 
   initializeNewTable(mines, columns, rows) {
@@ -106,12 +109,12 @@ class Table extends Component {
 
   handleRefresh() {
     this.setState({
-      table: this.initializeNewTable(this.props.mines, this.props.columns, this.props.rows)
+      table: this.initializeNewTable(this.props.mines, this.props.columns, this.props.rows),
+      displayLoss: false,
     })
   }
 
   handleSquareClick(row, column) {
-    console.log('click')
     let clickedTable = this.state.table
 
     if (!clickedTable[row][column].isFlipped) {
@@ -125,21 +128,20 @@ class Table extends Component {
   }
 
   serveLoss() {
-    alert('Take the L')
-    this.flipTable()
+    this.setState({
+      table: this.flipTable(),
+      displayLoss: true
+    })
   }
 
   flipTable() {
     let flippedTable = this.state.table
-    flippedTable.forEach(row => {
+    return flippedTable.forEach(row => {
       row.forEach(square => {
         square.isFlipped = true
       })
     })
-
-    console.log(flippedTable)
   }
-
 
   renderTable(table) {
     return table.map((tableRow, index) => {
@@ -165,13 +167,30 @@ class Table extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="game-info">
-          <div>
-            Mines remaining: {this.state.mines}
-          </div>
-          <span onClick={() => this.handleRefresh()}>🔄</span>
+        <div className="game-reset-wrapper">
+          <span onClick={() => this.handleRefresh()} className="pointer">
+            {this.state.displayLoss ? (
+              <span role="img" aria-label="cat-loss">😿</span>
+            ) : (
+              <span role="img" aria-label="cat-win">😸</span>
+            )}
+          </span>
         </div>
         {this.renderTable(this.state.table)}
+        <div className="game-info"><span role="img" aria-label="mine-count">💣</span>: {this.state.mines}</div>
+        {this.state.displayLoss && (
+          <div className="display-loss">
+            <span>You lost! Try again?</span>
+            <span
+              role="img"
+              aria-label="loss-refresh"
+              className="loss-refresh pointer"
+              onClick={() => this.handleRefresh()}
+            >
+              ♻️
+            </span>
+          </div>
+        )}
       </React.Fragment>
     );
   }

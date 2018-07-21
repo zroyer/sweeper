@@ -4,6 +4,10 @@ body {
   font-family: sans-serif;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .table-wrapper {
   height: 100vh;
   display: flex;
@@ -17,18 +21,38 @@ body {
 }
 
 .square {
-  height: 30px;
-  width: 30px;
+  height: 32px;
+  width: 32px;
+  border-radius: 2px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #E8E8E8;
+  margin: 1px;
+}
+
+.game-reset-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 1.5rem 0 0.5rem;
 }
 
 .game-info {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin: 0.5rem;
+}
+
+.display-loss {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.loss-refresh {
+   padding-left: 0.5rem;
 }
 
 .unclicked {
