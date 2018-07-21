@@ -63,54 +63,42 @@ class Table extends Component {
 
   // returns the score for an individual square
   getSquareScore(table, row, column) {
+    let adjacentSquares = this.lookAround(table, row, column)
     let score = 0
-
-    // look up
-    if (row > 0) {
-      row > 0 && table[row - 1][column].isMine && score++
-    }
-
-    // look up & to the right
-    if (row > 0 && column < table.length - 1) {
-      table[row - 1][column + 1].isMine && score++
-    }
-
-    // look to the right
-    if (column < table.length - 1) {
-      table[row][column + 1].isMine && score++
-    }
-
-    // look down & to the right
-    if (row < table[0].length - 1 && column < table.length - 1) {
-      table[row + 1][column + 1].isMine && score++
-    }
-
-    // look down
-    if (row < table[0].length - 1) {
-      table[row + 1][column].isMine && score++
-    }
-
-    // look down & to the left
-    if (row < table[0].length - 1 && column > 0) {
-      table[row + 1][column - 1].isMine && score++
-    }
-
-    // look to the left
-    if (column > 0) {
-      table[row][column - 1].isMine && score++
-    }
-
-    // look up & to the left
-    if (row > 0 && column > 0) {
-      table[row - 1][column - 1].isMine && score++
-    }
-
+    adjacentSquares.forEach(square => {
+      square.isMine && score++
+    })
     return score
   }
 
   // grabs the surrounding squares (up to 8) for comparison
   lookAround(table, row, column) {
+    let res = []
+    // look up
+    row > 0 && res.push(table[row - 1][column])
 
+    // look up & to the right
+    row > 0 && column < table.length - 1 && res.push(table[row - 1][column + 1])
+
+    // look to the right
+    column < table.length - 1 && res.push(table[row][column + 1])
+
+    // look down & to the right
+    row < table[0].length - 1 && column < table.length - 1 && res.push(table[row + 1][column + 1] )
+
+    // look down
+    row < table[0].length - 1 && res.push(table[row + 1][column])
+
+    // look down & to the left
+    row < table[0].length - 1 && column > 0 && res.push(table[row + 1][column - 1])
+
+    // look to the left
+    column > 0 && res.push(table[row][column - 1])
+
+    // look up & to the left
+    row > 0 && column > 0 && res.push(table[row - 1][column - 1])
+
+    return res
   }
 
   handleRefresh() {
@@ -137,7 +125,6 @@ class Table extends Component {
     e.preventDefault()
     let clickedTable = this.state.table
     let clickedSquare = clickedTable[row][column]
-    console.log(clickedSquare.isFlag)
     clickedSquare.isFlag = !this.state.table[row][column].isFlag
 
     this.setState({

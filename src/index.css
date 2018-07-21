@@ -29,6 +29,7 @@ body {
   align-items: center;
   background-color: #E8E8E8;
   margin: 1px;
+  cursor: pointer;
 }
 
 .game-reset-wrapper {
