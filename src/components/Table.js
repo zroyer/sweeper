@@ -210,9 +210,6 @@ class Table extends Component {
         square.isFlipped = true
       })
     })
-    this.setState({
-      table: flippedTable
-    })
   }
 
   renderTable(table) {
