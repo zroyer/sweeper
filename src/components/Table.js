@@ -9,13 +9,13 @@ class Table extends Component {
     super(props)
     this.state = {
       mines: this.props.mines,
-      table: this.initializeNewTable(this.props.mines, this.props.columns, this.props.rows),
+      table: this.initializeNewTable(this.props.mines, this.props.rows, this.props.columns),
       displayLoss: false,
       displayWin: false,
     }
   }
 
-  initializeNewTable(mines, columns, rows) {
+  initializeNewTable(mines, rows, columns) {
     let newTable = []
     for (let row = 0; row < rows; row++) {
       newTable.push([])
@@ -233,6 +233,17 @@ class Table extends Component {
         </div>
       )
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.degree !== this.props.degree) {
+      this.setState({
+        mines: this.props.mines,
+        table: this.initializeNewTable(this.props.mines, this.props.rows, this.props.columns),
+        displayLoss: false,
+        displayWin: false,
+      })
+    }
   }
 
   render() {
