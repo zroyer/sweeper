@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Square from './Square'
 import DisplayStatus from './DisplayStatus'
+import RefreshCat from './RefreshCat'
 import Confetti from 'react-dom-confetti';
 import { isEqual } from 'lodash'
 
@@ -249,15 +250,11 @@ class Table extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="game-reset-wrapper">
-          <span onClick={() => this.handleRefresh()} className="pointer">
-            {this.state.displayLoss ? (
-              <span role="img" aria-label="cat-loss">😿</span>
-            ) : (
-              <span role="img" aria-label="cat-win">😸</span>
-            )}
-          </span>
-        </div>
+        <RefreshCat
+          onClick={() => this.handleRefresh()}
+          displayLoss={this.state.displayLoss}
+          displayWin={this.state.displayWin}
+        />
         {this.renderTable(this.state.table)}
         <DisplayStatus
           onClick={() => this.handleRefresh()}
@@ -273,7 +270,7 @@ class Table extends Component {
             startVelocity: 70,
             elementCount: 200,
             decay: 0.9
-          }}/>
+        }}/>
       </React.Fragment>
     );
   }
