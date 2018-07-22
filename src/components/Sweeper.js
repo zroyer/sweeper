@@ -67,6 +67,15 @@ class Sweeper extends Component {
             )
           })}
         </select>
+        <a
+          title="Need help?"
+          href="https://github.com/zroyer/sweeper"
+          className="help"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span role="img" aria-label="help">❓</span>
+        </a>
       </div>
     );
   }

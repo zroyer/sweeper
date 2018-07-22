@@ -10,13 +10,13 @@ class Table extends Component {
     super(props)
     this.state = {
       mines: this.props.mines,
-      table: this.initializeNewTable(this.props.mines, this.props.rows, this.props.columns),
+      table: this.initializeRandomTable(this.props.mines, this.props.rows, this.props.columns),
       displayLoss: false,
       displayWin: false,
     }
   }
 
-  initializeNewTable(mines, rows, columns) {
+  initializeRandomTable(mines, rows, columns) {
     let newTable = []
     for (let row = 0; row < rows; row++) {
       newTable.push([])
@@ -40,11 +40,10 @@ class Table extends Component {
   // randomly lay the specified amount of mines
   layMines(table, mines) {
     while(mines > 0) {
-      let rowToLay = Math.floor(Math.random() * Math.floor(table.length));
-      let columnToLay = Math.floor(Math.random() * Math.floor(table[0].length));
-
-      if (!table[rowToLay][columnToLay].isMine) {
-        table[rowToLay][columnToLay].isMine = true
+      let possibleRow = Math.floor(Math.random() * Math.floor(table.length));
+      let possibleColumn = Math.floor(Math.random() * Math.floor(table[0].length));
+      if (!table[possibleRow][possibleColumn].isMine) {
+        table[possibleRow][possibleColumn].isMine = true
         mines--
       }
     }
@@ -65,9 +64,9 @@ class Table extends Component {
 
   // returns the score for an individual square
   getSquareScore(table, row, column) {
-    let adjacentSquares = this.lookAround(table, row, column)
+    let surroundingSquares = this.lookAround(table, row, column)
     let score = 0
-    adjacentSquares.forEach(square => {
+    surroundingSquares.forEach(square => {
       square.isMine && score++
     })
     return score
@@ -93,15 +92,6 @@ class Table extends Component {
     // look up & to the left
     row > 0 && column > 0 && res.push(table[row - 1][column - 1])
     return res
-  }
-
-  handleRefresh() {
-    this.setState({
-      mines: this.props.mines,
-      table: this.initializeNewTable(this.props.mines, this.props.rows, this.props.columns),
-      displayLoss: false,
-      displayWin: false,
-    })
   }
 
   handleSquareClick(row, column) {
@@ -214,6 +204,15 @@ class Table extends Component {
     })
   }
 
+  handleRefresh() {
+    this.setState({
+      mines: this.props.mines,
+      table: this.initializeRandomTable(this.props.mines, this.props.rows, this.props.columns),
+      displayLoss: false,
+      displayWin: false,
+    })
+  }
+
   renderTable(table) {
     return table.map((tableRow, index) => {
       return (
@@ -240,7 +239,7 @@ class Table extends Component {
     if (prevProps.degree !== this.props.degree) {
       this.setState({
         mines: this.props.mines,
-        table: this.initializeNewTable(this.props.mines, this.props.rows, this.props.columns),
+        table: this.initializeRandomTable(this.props.mines, this.props.rows, this.props.columns),
         displayLoss: false,
         displayWin: false,
       })

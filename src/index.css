@@ -16,6 +16,14 @@ body {
   top: 12px;
 }
 
+.help {
+  font-size: 32px;
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  text-decoration: none;
+}
+
 .table-wrapper {
   height: 100vh;
   display: flex;
