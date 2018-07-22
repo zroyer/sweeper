@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Square from './Square'
+import DisplayStatus from './DisplayStatus'
 import { isEqual } from 'lodash'
 
 class Table extends Component {
@@ -133,6 +134,7 @@ class Table extends Component {
     let mineMap = this.getMineMap()
     let flagMap = this.getFlagMap()
     let unflippedMap = this.getUnflippedMap()
+
     if (isEqual(mineMap, unflippedMap)) {
       isEqual(mineMap, flagMap) && this.serveWin()
     }
@@ -250,32 +252,10 @@ class Table extends Component {
         {this.renderTable(this.state.table)}
         <div className="game-info"><span role="img" aria-label="mine-count">💣</span>: {this.state.mines}</div>
         {this.state.displayLoss && (
-          //// TODO: break this out into component
-          <div className="display-loss">
-            <span>You lost! Try again?</span>
-            <span
-              role="img"
-              aria-label="loss-refresh"
-              className="refresh pointer"
-              onClick={() => this.handleRefresh()}
-            >
-              ♻️
-            </span>
-          </div>
+          <DisplayStatus onClick={() => this.handleRefresh()} loss/>
         )}
         {this.state.displayWin && (
-          //// TODO: break this out into component
-          <div className="display-loss">
-            <span>Way to go, you won! Try again?</span>
-            <span
-              role="img"
-              aria-label="win-refresh"
-              className="refresh pointer"
-              onClick={() => this.handleRefresh()}
-            >
-              ♻️
-            </span>
-          </div>
+          <DisplayStatus onClick={() => this.handleRefresh()} win/>
         )}
       </React.Fragment>
     );
