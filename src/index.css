@@ -49,6 +49,16 @@ body {
   cursor: pointer;
 }
 
+.square-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.square-span {
+  width: 16px;
+}
+
 .game-reset-wrapper {
   display: flex;
   flex-direction: row;

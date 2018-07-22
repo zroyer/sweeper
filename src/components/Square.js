@@ -45,7 +45,9 @@ class Square extends Component {
             className="square"
             onContextMenu={onContextMenu}
           >
-            {this.renderSquareContent(isFlag, isMine, isDetonated, squareScore)}
+            <div className="square-content">
+              <span className="square-span">{this.renderSquareContent(isFlag, isMine, isDetonated, squareScore)}</span>
+            </div>
           </div>
         ) : (
           <div
@@ -53,7 +55,9 @@ class Square extends Component {
             onClick={onClick}
             onContextMenu={onContextMenu}
           >
-            {this.renderFlagContent(isFlag)}
+            <div className="square-content">
+              <span className="square-span">{this.renderFlagContent(isFlag)}</span>
+            </div>
           </div>
         )}
       </React.Fragment>
