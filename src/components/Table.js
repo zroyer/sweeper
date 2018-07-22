@@ -33,7 +33,6 @@ class Table extends Component {
         }
       }
     }
-
     newTable = this.layMines(newTable, mines)
     newTable = this.layTableScore(newTable)
     return newTable;
@@ -117,9 +116,8 @@ class Table extends Component {
   // plants a flag on right-click, and checks to see if the table is in a winning position
   handleSquareRightClick(e, row, column) {
     e.preventDefault()
-    let clickedTable = this.state.table
     let numMines = this.state.mines
-
+    let clickedTable = this.state.table
     let clickedSquare = clickedTable[row][column]
     if (!clickedSquare.isFlipped) {
       if (!clickedSquare.isFlag && numMines > 0) {
@@ -127,7 +125,6 @@ class Table extends Component {
       } else if (clickedSquare.isFlag) {
         clickedTable[row][column].isFlag = false
       }
-
       this.checkForWin()
       this.setState({
         table: clickedTable
@@ -139,67 +136,44 @@ class Table extends Component {
   // a winning game is one where the flags are correctly placed on the mines,
   // with no other unflipped squares
   checkForWin() {
-    let mineMap = this.getMineMap()
-    let flagMap = this.getFlagMap()
-    let unflippedMap = this.getUnflippedMap()
-
-    if (isEqual(mineMap, unflippedMap)) {
-      isEqual(mineMap, flagMap) && this.serveWin()
+    let gameMap = this.getGameMap()
+    if (isEqual(gameMap.mines, gameMap.unflipped)) {
+      isEqual(gameMap.mines, gameMap.flags) && this.serveWin()
     }
     this.setState({
-      mines: mineMap.length - flagMap.length
+      mines: gameMap.mines.length - gameMap.flags.length
     })
   }
 
-  // returns the positions of the mines
-  getMineMap() {
-    let mineMap = []
+  // returns a map of the table's mines, flags, and unflipped squares
+  getGameMap() {
+    let gameMap = {
+      mines: [],
+      flags: [],
+      unflipped: [],
+    }
     this.state.table.forEach(row => {
       row.forEach(square => {
-        if (square.isMine) {
-          mineMap.push([square.row, square.column])
-        }
+        square.isMine && gameMap.mines.push([square.row, square.column])
+        square.isFlag && gameMap.flags.push([square.row, square.column])
+        !square.isFlipped && gameMap.unflipped.push([square.row, square.column])
       })
     })
-    return mineMap
-  }
-
-  // returns the positions of the flags
-  getFlagMap() {
-    let flagMap = []
-    this.state.table.forEach(row => {
-      row.forEach(square => {
-        if (square.isFlag) {
-          flagMap.push([square.row, square.column])
-        }
-      })
-    })
-    return flagMap
-  }
-
-  // returns the positions of the mines
-  getUnflippedMap() {
-    let unflippedMap = []
-    this.state.table.forEach(row => {
-      row.forEach(square => {
-        if (!square.isFlipped) {
-          unflippedMap.push([square.row, square.column])
-        }
-      })
-    })
-    return unflippedMap
+    return gameMap
   }
 
   serveLoss(row, column) {
     this.setState({
       table: this.flipTable(row, column),
-      displayLoss: true
+      displayLoss: true,
+      displayWin: false,
     })
   }
 
   serveWin() {
     this.setState({
-      displayWin: true
+      displayLoss: false,
+      displayWin: true,
     })
   }
 
