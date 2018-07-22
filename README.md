@@ -1,4 +1,4 @@
-## Sweeper
+## Sweeper 💣🚩
 ### How To Play
 - Click a square to flip it, but be careful not to flip any mines!
 - A score indicates the number of mines surrounding that square (all 8 directions)
