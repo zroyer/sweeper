@@ -4,8 +4,8 @@ import Table from './Table'
 const degreeDictionary = {
   'easy' : {
     mines: 4,
-    rows: 8,
-    columns: 3,
+    rows: 6,
+    columns: 6,
     degree: 'easy',
     displayName: '😇',
   },
@@ -21,6 +21,13 @@ const degreeDictionary = {
     rows: 16,
     columns: 16,
     degree: 'hard',
+    displayName: '😤',
+  },
+  'insane' : {
+    mines: 99,
+    rows: 30,
+    columns: 16,
+    degree: 'insane',
     displayName: '🤯',
   },
 }
