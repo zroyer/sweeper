@@ -6,19 +6,22 @@ const degreeDictionary = {
     mines: 4,
     columns: 6,
     rows: 6,
-    degree: 'easy'
+    degree: 'easy',
+    displayName: '😇',
   },
   'medium' : {
     mines: 10,
     columns: 9,
     rows: 9,
-    degree: 'medium'
+    degree: 'medium',
+    displayName: '😅',
   },
   'hard' : {
     mines: 40,
     columns: 16,
     rows: 16,
-    degree: 'hard'
+    degree: 'hard',
+    displayName: '🤯',
   },
 }
 
@@ -46,10 +49,14 @@ class Sweeper extends Component {
           columns={this.state.columns}
           degree={this.state.degree}
         />
-        <select value={this.state.degree} onChange={(e) => this.onSelectChange(e)}>
-          {Object.keys(degreeDictionary).map(key => {
+        <select
+          className="degree-select"
+          value={this.state.degree}
+          onChange={(e) => this.onSelectChange(e)}
+        >
+          {Object.entries(degreeDictionary).map(entry => {
             return (
-              <option value={key} key={key}>{key}</option>
+              <option value={entry[1].degree} key={entry[1].degree}>{entry[1].displayName}</option>
             )
           })}
         </select>

@@ -28,7 +28,6 @@ const DisplayStatus = (props) => (
         <span role="img" aria-label="mine-count">💣</span>: {props.mines}
       </span>
     )}
-
   </div>
 );
 

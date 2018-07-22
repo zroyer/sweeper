@@ -8,6 +8,14 @@ body {
   cursor: pointer;
 }
 
+.degree-select {
+  height: 40px;
+  font-size: 32px;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
 .table-wrapper {
   height: 100vh;
   display: flex;
@@ -37,14 +45,16 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 1.5rem 0 0.5rem;
+  margin: 3rem 0 1rem;
+  font-size: 32px;
 }
 
 .game-info {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0.5rem;
+  margin: 1rem;
+  font-size: 24px;
 }
 
 .display {
