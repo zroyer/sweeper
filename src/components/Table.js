@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Square from './Square'
 import DisplayStatus from './DisplayStatus'
+import Confetti from 'react-dom-confetti';
 import { isEqual } from 'lodash'
 
 class Table extends Component {
@@ -254,6 +255,15 @@ class Table extends Component {
         {this.state.displayWin && (
           <DisplayStatus onClick={() => this.handleRefresh()} win/>
         )}
+        <Confetti
+          active={ this.state.displayWin }
+          config={{
+            angle: 90,
+            spread: 120,
+            startVelocity: 70,
+            elementCount: 200,
+            decay: 0.9
+          }}/>
       </React.Fragment>
     );
   }
