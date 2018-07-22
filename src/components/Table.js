@@ -39,7 +39,6 @@ class Table extends Component {
 
   // randomly lay the specified amount of mines
   layMines(table, mines) {
-    console.log(table)
     while(mines > 0) {
       let rowToLay = Math.floor(Math.random() * Math.floor(table.length));
       let columnToLay = Math.floor(Math.random() * Math.floor(table[0].length));
@@ -76,7 +75,6 @@ class Table extends Component {
 
   // grabs the surrounding squares (up to 8) for comparison
   lookAround(table, row, column) {
-    console.log(table.length - 1)
     let res = []
     // look up
     row > 0 && res.push(table[row - 1][column])
@@ -265,7 +263,7 @@ class Table extends Component {
           mines={this.state.mines}
         />
         <Confetti
-          active={ this.state.displayWin }
+          active={this.state.displayWin}
           config={{
             angle: 90,
             spread: 120,
