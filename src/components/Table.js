@@ -94,8 +94,10 @@ class Table extends Component {
 
   handleRefresh() {
     this.setState({
+      mines: this.props.mines,
       table: this.initializeNewTable(this.props.mines, this.props.columns, this.props.rows),
       displayLoss: false,
+      displayWin: false,
     })
   }
 
@@ -130,8 +132,10 @@ class Table extends Component {
   checkForWin() {
     let mineMap = this.getMineMap()
     let flagMap = this.getFlagMap()
-    let mineCount = mineMap.length - flagMap.length
-    isEqual(mineMap, flagMap) && this.serveWin()
+    let unflippedMap = this.getUnflippedMap()
+    if (isEqual(mineMap, unflippedMap)) {
+      isEqual(mineMap, flagMap) && this.serveWin()
+    }
     this.setState({
       mines: mineMap.length - flagMap.length
     })
@@ -161,6 +165,18 @@ class Table extends Component {
     return flagMap
   }
 
+  getUnflippedMap() {
+    let unflippedMap = []
+    this.state.table.forEach(row => {
+      row.forEach(square => {
+        if (!square.isFlipped) {
+          unflippedMap.push([square.row, square.column])
+        }
+      })
+    })
+    return unflippedMap
+  }
+
   serveLoss() {
     this.setState({
       table: this.flipTable(),
@@ -170,10 +186,8 @@ class Table extends Component {
 
   serveWin() {
     this.setState({
-      table: this.flipTable(),
       displayWin: true
     })
-    alert('winner')
   }
 
   flipZeroes(table, row, column) {
@@ -242,7 +256,21 @@ class Table extends Component {
             <span
               role="img"
               aria-label="loss-refresh"
-              className="loss-refresh pointer"
+              className="refresh pointer"
+              onClick={() => this.handleRefresh()}
+            >
+              ♻️
+            </span>
+          </div>
+        )}
+        {this.state.displayWin && (
+          //// TODO: break this out into component
+          <div className="display-loss">
+            <span>Way to go, you won! Try again?</span>
+            <span
+              role="img"
+              aria-label="win-refresh"
+              className="refresh pointer"
               onClick={() => this.handleRefresh()}
             >
               ♻️
