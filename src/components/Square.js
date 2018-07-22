@@ -45,7 +45,7 @@ class Square extends Component {
           </div>
         ) : (
           <div
-            className="square unclicked"
+            className="square unflipped"
             onClick={onClick}
             onContextMenu={onContextMenu}
           >

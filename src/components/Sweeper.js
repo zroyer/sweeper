@@ -3,9 +3,9 @@ import Table from './Table'
 
 const degreeDictionary = {
   'easy' : {
-    mines: 5,
-    columns: 4,
-    rows: 4,
+    mines: 4,
+    columns: 6,
+    rows: 6,
     degree: 'easy'
   },
   'medium' : {

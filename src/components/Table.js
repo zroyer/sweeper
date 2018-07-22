@@ -259,13 +259,12 @@ class Table extends Component {
           </span>
         </div>
         {this.renderTable(this.state.table)}
-        <div className="game-info"><span role="img" aria-label="mine-count">💣</span>: {this.state.mines}</div>
-        {this.state.displayLoss && (
-          <DisplayStatus onClick={() => this.handleRefresh()} loss/>
-        )}
-        {this.state.displayWin && (
-          <DisplayStatus onClick={() => this.handleRefresh()} win/>
-        )}
+        <DisplayStatus
+          onClick={() => this.handleRefresh()}
+          displayLoss={this.state.displayLoss}
+          displayWin={this.state.displayWin}
+          mines={this.state.mines}
+        />
         <Confetti
           active={ this.state.displayWin }
           config={{
