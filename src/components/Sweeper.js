@@ -25,8 +25,8 @@ const degreeDictionary = {
   },
   'insane' : {
     mines: 99,
-    rows: 30,
-    columns: 16,
+    rows: 16,
+    columns: 30,
     degree: 'insane',
     displayName: '🤯',
   },
@@ -63,7 +63,12 @@ class Sweeper extends Component {
         >
           {Object.entries(degreeDictionary).map(entry => {
             return (
-              <option value={entry[1].degree} key={entry[1].degree}>{entry[1].displayName}</option>
+              <option
+                value={entry[1].degree}
+                key={entry[1].degree}
+              >
+                {entry[1].displayName}
+              </option>
             )
           })}
         </select>

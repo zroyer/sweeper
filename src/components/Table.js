@@ -16,15 +16,17 @@ class Table extends Component {
     }
   }
 
+  // creates a new random table based on the game state for mines, rows, and columns
   initializeRandomTable(mines, rows, columns) {
     let newTable = []
     for (let row = 0; row < rows; row++) {
-      newTable.push([])
+      newTable[row] = []
       for (let column = 0; column < columns; column++) {
         newTable[row][column] = {
           row: row,
           column: column,
           isMine: false,
+          isDetonated: false,
           isFlag: false,
           isFlipped: false,
           squareScore: 0,
@@ -94,11 +96,14 @@ class Table extends Component {
     return res
   }
 
+  // flips a square that has been clicked
+  // if the square is a mine, a loss is served
+  // if the square is a zero, the surrounding zeroes are recursively flipped
   handleSquareClick(row, column) {
     let clickedTable = this.state.table
     if (!clickedTable[row][column].isFlipped && !clickedTable[row][column].isFlag) {
       clickedTable[row][column].isFlipped = true
-      clickedTable[row][column].isMine && this.serveLoss()
+      clickedTable[row][column].isMine && this.serveLoss(row, column)
       if (clickedTable[row][column].squareScore === 0) {
         clickedTable = this.flipZeroes(clickedTable, row, column)
       }
@@ -109,12 +114,20 @@ class Table extends Component {
     })
   }
 
+  // plants a flag on right-click, and checks to see if the table is in a winning position
   handleSquareRightClick(e, row, column) {
     e.preventDefault()
     let clickedTable = this.state.table
+    let numMines = this.state.mines
+
     let clickedSquare = clickedTable[row][column]
     if (!clickedSquare.isFlipped) {
-      clickedSquare.isFlag = !this.state.table[row][column].isFlag
+      if (!clickedSquare.isFlag && numMines > 0) {
+        clickedTable[row][column].isFlag = true
+      } else if (clickedSquare.isFlag) {
+        clickedTable[row][column].isFlag = false
+      }
+
       this.checkForWin()
       this.setState({
         table: clickedTable
@@ -122,6 +135,9 @@ class Table extends Component {
     }
   }
 
+  // compare the positions of the mines, flags, and unflipped squares
+  // a winning game is one where the flags are correctly placed on the mines,
+  // with no other unflipped squares
   checkForWin() {
     let mineMap = this.getMineMap()
     let flagMap = this.getFlagMap()
@@ -135,6 +151,7 @@ class Table extends Component {
     })
   }
 
+  // returns the positions of the mines
   getMineMap() {
     let mineMap = []
     this.state.table.forEach(row => {
@@ -147,6 +164,7 @@ class Table extends Component {
     return mineMap
   }
 
+  // returns the positions of the flags
   getFlagMap() {
     let flagMap = []
     this.state.table.forEach(row => {
@@ -159,6 +177,7 @@ class Table extends Component {
     return flagMap
   }
 
+  // returns the positions of the mines
   getUnflippedMap() {
     let unflippedMap = []
     this.state.table.forEach(row => {
@@ -171,9 +190,9 @@ class Table extends Component {
     return unflippedMap
   }
 
-  serveLoss() {
+  serveLoss(row, column) {
     this.setState({
-      table: this.flipTable(),
+      table: this.flipTable(row, column),
       displayLoss: true
     })
   }
@@ -184,10 +203,11 @@ class Table extends Component {
     })
   }
 
+  // recursively flip all zeroes surrounding the zero clicked
   flipZeroes(table, row, column) {
     let potentialZeroes = this.lookAround(table, row, column)
     potentialZeroes.forEach(square => {
-      if (!square.isFlipped && !square.isMine ) {
+      if (!square.isFlipped && !square.isMine && !square.isFlag) {
         table[square.row][square.column].isFlipped = true
         square.squareScore === 0 && this.flipZeroes(table, square.row, square.column)
       }
@@ -195,15 +215,20 @@ class Table extends Component {
     return table
   }
 
-  flipTable() {
+  // flip all squares and indicate which mine detonated
+  flipTable(row, column) {
     let flippedTable = this.state.table
-    return flippedTable.forEach(row => {
-      row.forEach(square => {
+    return flippedTable.forEach(flippedTableRow => {
+      flippedTableRow.forEach(square => {
+        if (square.row === row && square.column === column) {
+          square.isDetonated = true
+        }
         square.isFlipped = true
       })
     })
   }
 
+  // refresh the game with a new random table
   handleRefresh() {
     this.setState({
       mines: this.props.mines,
@@ -221,6 +246,7 @@ class Table extends Component {
             return (
               <Square
                 key={`row-${index}&column-${tableSquare.column}`}
+                isDetonated={tableSquare.isDetonated}
                 isMine={tableSquare.isMine}
                 isFlag={tableSquare.isFlag}
                 isFlipped={tableSquare.isFlipped}

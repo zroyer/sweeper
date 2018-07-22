@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 class Square extends Component {
-  renderSquareContent(isFlag, isMine, squareScore) {
+  renderSquareContent(isFlag, isMine, isDetonated, squareScore) {
     const scoreDict = {
       0: null,
       1: '1️⃣',
@@ -14,6 +14,9 @@ class Square extends Component {
       8: '8️⃣',
     }
 
+    if (isDetonated) {
+      return '💥'
+    }
     if (isMine) {
       return '💣'
     }
@@ -28,6 +31,7 @@ class Square extends Component {
     const {
       isFlag,
       isMine,
+      isDetonated,
       squareScore,
       isFlipped,
       onClick,
@@ -41,7 +45,7 @@ class Square extends Component {
             className="square"
             onContextMenu={onContextMenu}
           >
-            {this.renderSquareContent(isFlag, isMine, squareScore)}
+            {this.renderSquareContent(isFlag, isMine, isDetonated, squareScore)}
           </div>
         ) : (
           <div
