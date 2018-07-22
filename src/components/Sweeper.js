@@ -4,22 +4,22 @@ import Table from './Table'
 const degreeDictionary = {
   'easy' : {
     mines: 4,
-    columns: 6,
-    rows: 6,
+    rows: 8,
+    columns: 3,
     degree: 'easy',
     displayName: '😇',
   },
   'medium' : {
     mines: 10,
-    columns: 9,
     rows: 9,
+    columns: 9,
     degree: 'medium',
     displayName: '😅',
   },
   'hard' : {
     mines: 40,
-    columns: 16,
     rows: 16,
+    columns: 16,
     degree: 'hard',
     displayName: '🤯',
   },
@@ -30,8 +30,8 @@ class Sweeper extends Component {
     super(props);
     this.state = {
       mines: 10,
-      columns: 9,
       rows: 9,
+      columns: 9,
       degree: 'medium'
     };
   }

@@ -39,9 +39,10 @@ class Table extends Component {
 
   // randomly lay the specified amount of mines
   layMines(table, mines) {
+    console.log(table)
     while(mines > 0) {
-      let rowToLay = Math.floor(Math.random() * Math.floor(table[0].length));
-      let columnToLay = Math.floor(Math.random() * Math.floor(table.length));
+      let rowToLay = Math.floor(Math.random() * Math.floor(table.length));
+      let columnToLay = Math.floor(Math.random() * Math.floor(table[0].length));
 
       if (!table[rowToLay][columnToLay].isMine) {
         table[rowToLay][columnToLay].isMine = true
@@ -53,8 +54,8 @@ class Table extends Component {
 
   // lay the score for all the squares on the table
   layTableScore(table) {
-    for (let i = 0; i < table[0].length; i++) {
-      for (let j = 0; j < table.length; j++) {
+    for (let i = 0; i < table.length; i++) {
+      for (let j = 0; j < table[0].length; j++) {
         if (!table[i][j].isMine) {
           table[i][j].squareScore = this.getSquareScore(table, i, j)
         }
@@ -75,19 +76,20 @@ class Table extends Component {
 
   // grabs the surrounding squares (up to 8) for comparison
   lookAround(table, row, column) {
+    console.log(table.length - 1)
     let res = []
     // look up
     row > 0 && res.push(table[row - 1][column])
     // look up & to the right
-    row > 0 && column < table.length - 1 && res.push(table[row - 1][column + 1])
+    row > 0 && column < table[0].length - 1 && res.push(table[row - 1][column + 1])
     // look to the right
-    column < table.length - 1 && res.push(table[row][column + 1])
+    column < table[0].length - 1 && res.push(table[row][column + 1])
     // look down & to the right
-    row < table[0].length - 1 && column < table.length - 1 && res.push(table[row + 1][column + 1] )
+    row < table.length - 1 && column < table[0].length - 1 && res.push(table[row + 1][column + 1] )
     // look down
-    row < table[0].length - 1 && res.push(table[row + 1][column])
+    row < table.length - 1 && res.push(table[row + 1][column])
     // look down & to the left
-    row < table[0].length - 1 && column > 0 && res.push(table[row + 1][column - 1])
+    row < table.length - 1 && column > 0 && res.push(table[row + 1][column - 1])
     // look to the left
     column > 0 && res.push(table[row][column - 1])
     // look up & to the left
@@ -98,7 +100,7 @@ class Table extends Component {
   handleRefresh() {
     this.setState({
       mines: this.props.mines,
-      table: this.initializeNewTable(this.props.mines, this.props.columns, this.props.rows),
+      table: this.initializeNewTable(this.props.mines, this.props.rows, this.props.columns),
       displayLoss: false,
       displayWin: false,
     })
