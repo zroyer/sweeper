@@ -76,28 +76,20 @@ class Table extends Component {
     let res = []
     // look up
     row > 0 && res.push(table[row - 1][column])
-
     // look up & to the right
     row > 0 && column < table.length - 1 && res.push(table[row - 1][column + 1])
-
     // look to the right
     column < table.length - 1 && res.push(table[row][column + 1])
-
     // look down & to the right
     row < table[0].length - 1 && column < table.length - 1 && res.push(table[row + 1][column + 1] )
-
     // look down
     row < table[0].length - 1 && res.push(table[row + 1][column])
-
     // look down & to the left
     row < table[0].length - 1 && column > 0 && res.push(table[row + 1][column - 1])
-
     // look to the left
     column > 0 && res.push(table[row][column - 1])
-
     // look up & to the left
     row > 0 && column > 0 && res.push(table[row - 1][column - 1])
-
     return res
   }
 
@@ -113,7 +105,9 @@ class Table extends Component {
     if (!clickedTable[row][column].isFlipped && !clickedTable[row][column].isFlag) {
       clickedTable[row][column].isFlipped = true
       clickedTable[row][column].isMine && this.serveLoss()
-      clickedTable[row][column].squareScore === 0 && this.flipZeroes(clickedTable[row][column])
+      if (clickedTable[row][column].squareScore === 0) {
+        clickedTable = this.flipZeroes(clickedTable, row, column)
+      }
     }
 
     this.setState({
@@ -139,8 +133,17 @@ class Table extends Component {
     })
   }
 
-  flipZeroes(square) {
-    console.log(square)
+  flipZeroes(table, row, column) {
+    let potentialZeroes = this.lookAround(table, row, column)
+    potentialZeroes.forEach(square => {
+      if (!square.isFlipped && !square.isMine ) {
+        table[square.row][square.column].isFlipped = true
+        if (square.squareScore === 0) {
+          this.flipZeroes(table, square.row, square.column)
+        }
+      }
+    })
+    return table
   }
 
   flipTable() {
