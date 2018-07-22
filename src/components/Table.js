@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Square from './Square'
+import { isEqual } from 'lodash'
 
 class Table extends Component {
   constructor(props) {
@@ -14,12 +15,12 @@ class Table extends Component {
 
   initializeNewTable(mines, columns, rows) {
     let newTable = []
-    for (let i = 0; i < rows; i++) {
+    for (let row = 0; row < rows; row++) {
       newTable.push([])
-      for (let j = 0; j < columns; j++) {
-        newTable[i][j] = {
-          row: i,
-          column: j,
+      for (let column = 0; column < columns; column++) {
+        newTable[row][column] = {
+          row: row,
+          column: column,
           isMine: false,
           isFlag: false,
           isFlipped: false,
@@ -35,14 +36,12 @@ class Table extends Component {
 
   // randomly lay the specified amount of mines
   layMines(table, mines) {
-    console.log(table)
     while(mines > 0) {
       let rowToLay = Math.floor(Math.random() * Math.floor(table[0].length));
       let columnToLay = Math.floor(Math.random() * Math.floor(table.length));
 
       if (!table[rowToLay][columnToLay].isMine) {
         table[rowToLay][columnToLay].isMine = true
-        //table.mineMap.push(table[rowToLay][columnToLay])
         mines--
       }
     }
@@ -108,8 +107,8 @@ class Table extends Component {
       if (clickedTable[row][column].squareScore === 0) {
         clickedTable = this.flipZeroes(clickedTable, row, column)
       }
+      this.checkForWin()
     }
-
     this.setState({
       table: clickedTable
     })
@@ -119,11 +118,47 @@ class Table extends Component {
     e.preventDefault()
     let clickedTable = this.state.table
     let clickedSquare = clickedTable[row][column]
-    clickedSquare.isFlag = !this.state.table[row][column].isFlag
+    if (!clickedSquare.isFlipped) {
+      clickedSquare.isFlag = !this.state.table[row][column].isFlag
+      this.checkForWin()
+      this.setState({
+        table: clickedTable
+      })
+    }
+  }
 
+  checkForWin() {
+    let mineMap = this.getMineMap()
+    let flagMap = this.getFlagMap()
+    let mineCount = mineMap.length - flagMap.length
+    isEqual(mineMap, flagMap) && this.serveWin()
     this.setState({
-      table: clickedTable
+      mines: mineMap.length - flagMap.length
     })
+  }
+
+  getMineMap() {
+    let mineMap = []
+    this.state.table.forEach(row => {
+      row.forEach(square => {
+        if (square.isMine) {
+          mineMap.push([square.row, square.column])
+        }
+      })
+    })
+    return mineMap
+  }
+
+  getFlagMap() {
+    let flagMap = []
+    this.state.table.forEach(row => {
+      row.forEach(square => {
+        if (square.isFlag) {
+          flagMap.push([square.row, square.column])
+        }
+      })
+    })
+    return flagMap
   }
 
   serveLoss() {
@@ -133,14 +168,20 @@ class Table extends Component {
     })
   }
 
+  serveWin() {
+    this.setState({
+      table: this.flipTable(),
+      displayWin: true
+    })
+    alert('winner')
+  }
+
   flipZeroes(table, row, column) {
     let potentialZeroes = this.lookAround(table, row, column)
     potentialZeroes.forEach(square => {
       if (!square.isFlipped && !square.isMine ) {
         table[square.row][square.column].isFlipped = true
-        if (square.squareScore === 0) {
-          this.flipZeroes(table, square.row, square.column)
-        }
+        square.squareScore === 0 && this.flipZeroes(table, square.row, square.column)
       }
     })
     return table

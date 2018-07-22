@@ -5,9 +5,9 @@ class Sweeper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mines: 10,
-      columns: 9,
-      rows: 9,
+      mines: 1,
+      columns: 3,
+      rows: 3,
     };
   }
 

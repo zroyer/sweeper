@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class Square extends Component {
   renderSquareContent(isFlag, isMine, squareScore) {
     const scoreDict = {
+      0: null,
       1: '1️⃣',
       2: '2️⃣',
       3: '3️⃣',
@@ -15,9 +16,6 @@ class Square extends Component {
 
     if (isMine) {
       return '💣'
-    }
-    if (squareScore === 0) {
-      return null
     }
     return scoreDict[squareScore]
   }
