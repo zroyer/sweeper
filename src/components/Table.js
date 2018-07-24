@@ -53,10 +53,10 @@ class Table extends Component {
 
   // lay the score for all the squares on the table
   layTableScore(table) {
-    for (let i = 0; i < table.length; i++) {
-      for (let j = 0; j < table[0].length; j++) {
-        if (!table[i][j].isMine) {
-          table[i][j].squareScore = this.getSquareScore(table, i, j)
+    for (let row = 0; row < table.length; row++) {
+      for (let column = 0; column < table[0].length; column++) {
+        if (!table[row][column].isMine) {
+          table[row][column].squareScore = this.getSquareScore(table, row, column)
         }
       }
     }
