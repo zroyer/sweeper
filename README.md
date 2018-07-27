@@ -7,7 +7,7 @@
 - Adjust the difficulty with the dropdown in the top-right of the window
 
 ### Local Development
-- Clone this repository and `cd` into the directory
+- Clone this repository and `cd` into the root directory
 - `npm install`
 - `npm start`
 - Check it out at `localhost:3000`!
