@@ -6,6 +6,9 @@
 - Flag all the mines to win! Special surprise for winners!
 - Adjust the difficulty with the dropdown in the top-right of the window
 
+![Screenshot](i.imgur.com/3vDBnRf.png)
+
+
 ### Local Development
 - Clone this repository and `cd` into the root directory
 - `npm install`
