@@ -6,7 +6,7 @@
 - Flag all the mines to win! Special surprise for winners!
 - Adjust the difficulty with the dropdown in the top-right of the window
 
-![Screenshot](http://i.imgur.com/3vDBnRf.png)
+![Screenshot](http://i.imgur.com/NAPaYl8.png)
 
 
 ### Local Development
