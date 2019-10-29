@@ -1,4 +1,6 @@
 ## Sweeper 💣🚩
+[![Netlify Status](https://api.netlify.com/api/v1/badges/00f92a09-c0f3-4107-9943-095a828c33da/deploy-status)](https://app.netlify.com/sites/ssweeper/deploys)
+
 ### How To Play
 - Click a square to flip it, but be careful not to flip any mines!
 - A score indicates the number of mines surrounding that square (all 8 directions)
